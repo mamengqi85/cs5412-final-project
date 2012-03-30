@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (c) 2005 Sun Microsystems, Inc. All rights reserved.
+
+Redistributions in source code form must reproduce the above copyright and this condition.
+
+The contents of this file are subject to the Sun Project JXTA License Version 1.1 (the "License"); you may not use this file except in compliance with the License. A copy of the License is available at http://www.jxta.org/jxta_license.html.
+-->
+
+<project name="myjxta" basedir="." default="run">
+
+  <property name="src" value="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/src"/>
+  <property name="lib" value="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib"/>
+  <property name="build" value="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/classes"/>
+  <property name="doc" value="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/doc"/>
+
+  <property name="main" value="net.jxta.myjxta.Main"/>
+  <property name="product" value="MyJXTA"/>
+  <property name="home" value="myjxta"/>
+
+  <property name="debug" value="false"/>
+  <property name="deprecation" value="off"/>
+  <property name="optimize" value="off"/>
+
+  <target name="prepare">
+    <condition property="ant.isValid">
+      <or>
+        <contains string="Apache Ant version 1.6.5 compiled on October 26 2005"
+                  substring=" 1.6"/>
+      </or>
+    </condition>
+
+    <fail unless="ant.isValid"
+          message="please upgrade ant to 1.6+: http://ant.apache.org"/>
+
+    <tstamp>
+      <format property="bod" pattern="yyyy.MM.dd:HH.mm.ss Z"
+        timezone="GMT"/>
+    </tstamp>
+
+    <condition property="net.jxta.build.version" value="20071107">
+      <not>
+        <isset property="net.jxta.build.version"/>
+      </not>
+    </condition>
+
+    <path id="classpath.compile">
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/jxta.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/jxtaext.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/jdom.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/swingx.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/freetts.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/prefuse.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/TableLayout.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/jspeex.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/jxtacms.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/jxtashell.jar"/>
+    </path>
+
+    <path id="classpath.runtime">
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/bcprov-jdk14.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/javax.servlet.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/org.mortbay.jetty.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/swixml.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/jlfgr-1_0.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/jogg-0.0.05.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/jorbis-0.0.12.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/tritonus_share.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/vorbisspi1.0.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/cmulex.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/cmu_time_awb.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/cmutimelex.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/cmu_us_kal.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/en_us.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/jsapi.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/prefuse.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/TableLayout.jar"/>
+      <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/lib/jspeex.jar"/>
+    </path>
+  </target>
+
+  <target name="build" depends="prepare" description="build">
+    <delete dir="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/classes"/>
+    <mkdir dir="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/classes"/>
+
+    <javac destdir="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/classes" target="1.5" debug="true"
+      deprecation="on" optimize="off">
+      <src path="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/src"/>
+      <classpath refid="classpath.compile"/>
+    </javac>
+
+    <copy todir="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/classes/net/jxta/myjxta/resources">
+      <fileset dir="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/src/net/jxta/myjxta/resources">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="run" depends="build" description="run">
+    <java classname="net.jxta.myjxta.Main" fork="yes">
+      <classpath path="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/classes"/>
+      <classpath refid="classpath.runtime"/>
+      <classpath refid="classpath.compile"/>
+<!--
+      <arg value="-server" />
+      <jvmarg value="-Xms64M" />
+      <jvmarg value="-Xmx192M" />
+-->
+      <sysproperty key="JXTA_HOME" value="${home}"/>
+    </java>
+  </target>
+
+  <target name="doc" depends="prepare" description="doc">
+    <delete dir="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/docs/api"/>
+    <mkdir dir="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/docs/api"/>
+
+    <javadoc classpathref="classpath.compile" destdir="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/docs/api"
+      use="true" windowtitle="MyJXTA 2.5 [2007.11.07:19.36.12 +0000]"
+      additionalparam="-breakiterator">
+      <link href="http://java.sun.com/j2se/1.4.1/docs/api/"/>
+      <sourcepath>
+        <pathelement location="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/src" />
+      </sourcepath>
+      <package name="net.jxta.myjxta.*" />
+      <group title="MyJXTA Standard J2SE API" packages="net.jxta.myjxta*"/>
+      <doctitle>MyJXTA 2.5 [2007.11.07:19.36.12 +0000]</doctitle>
+      <header>&lt;a href='http://myjxta.dev.java.net' target='_blank'&gt;MyJXTA&lt;/a&gt;</header>
+      <footer>2007.11.07:19.36.12 +0000</footer>
+    </javadoc>
+
+    <target name="clean" description="clean">
+      <delete dir="/Users/crazymooner/Documents/Projects/Cloud Computing/myjxta-2.5 3/classes"/>
+      <delete dir="${home}"/>
+    </target>
+  </target>
+</project>
